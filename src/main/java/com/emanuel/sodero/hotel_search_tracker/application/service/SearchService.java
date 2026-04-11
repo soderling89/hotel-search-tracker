@@ -1,5 +1,6 @@
 package com.emanuel.sodero.hotel_search_tracker.application.service;
 
+import com.emanuel.sodero.hotel_search_tracker.application.port.in.RegisterSearchUseCase;
 import com.emanuel.sodero.hotel_search_tracker.application.port.out.SearchEventProducer;
 import com.emanuel.sodero.hotel_search_tracker.application.port.out.SearchIdGenerator;
 import com.emanuel.sodero.hotel_search_tracker.domain.model.Search;
@@ -8,7 +9,7 @@ import com.emanuel.sodero.hotel_search_tracker.domain.model.exception.InvalidSea
 import org.springframework.stereotype.Service;
 
 @Service
-public class SearchService {
+public class SearchService implements RegisterSearchUseCase {
     private final SearchIdGenerator searchIdGenerator;
     private final SearchEventProducer searchEventProducer;
 
