@@ -44,4 +44,27 @@ public class SearchEntity {
         this.ages = ages;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getSearchId() {
+        return searchId;
+    }
+
+    public String getHotelId() {
+        return hotelId;
+    }
+
+    public LocalDate getCheckInDate() {
+        return checkInDate;
+    }
+
+    public LocalDate getCheckOutDate() {
+        return checkOutDate;
+    }
+
+    public String getAges() {
+        return ages;
+    }
 }
