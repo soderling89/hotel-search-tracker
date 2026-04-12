@@ -1,15 +1,39 @@
 spring:
   application:
     name: hotel-search-tracker
-    datasource:
-      url: jdbc:h2:mem:testdb
-      driver-class-name: org.h2.Driver
-      username: sa
-      password: ""
+  datasource:
+    url: ${DB_URL:jdbc:oracle:thin:@oracle-db:1521/FREEPDB1}
+    username: ${DB_USERNAME:hotel}
+    password: ${DB_PASSWORD:hotel}
+    driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect
+        jdbc:
+          time_zone: UTC
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+    consumer:
+      group-id: hotel-search-tracker
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.emanuel.sodero.hotel_search_tracker.*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  threads:
+    virtual:
+      enabled: true
 
-      h2:
-        console:
-          enabled: true
+server:
+  port: ${SERVER_PORT:8080}
 
-      jpa:
-        database-platform: org.hibernate.dialect.H2Dialect
+hotel-search:
+  kafka:
+    topic: hotel_availability_searches

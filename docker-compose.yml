@@ -1,4 +1,21 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      kafka:
+        condition: service_healthy
+      oracle-db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:oracle:thin:@oracle-db:1521/FREEPDB1
+      DB_USERNAME: hotel
+      DB_PASSWORD: hotel
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
 
   kafka:
     image: apache/kafka:3.9.1
@@ -36,3 +53,32 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
     ports:
       - "8081:8080"
+
+  oracle-db:
+    image: gvenzl/oracle-free:23-slim
+    hostname: oracle-db
+    container_name: hotel-search-oracle
+    environment:
+      ORACLE_PASSWORD: hotel
+      APP_USER: hotel
+      APP_USER_PASSWORD: hotel
+    ports:
+      - "1521:1521"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 20s
+      timeout: 10s
+      retries: 15
+
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:24.3.0
+    depends_on:
+      oracle-db:
+        condition: service_healthy
+    ports:
+      - "8978:8978"
+    volumes:
+      - cloudbeaver-workspace:/opt/cloudbeaver/workspace
+
+volumes:
+  cloudbeaver-workspace:
