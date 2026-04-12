@@ -13,6 +13,12 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
   kafka:
     bootstrap-servers: localhost:29092
+    consumer:
+      group-id: hotel-search-tracker
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.emanuel.sodero.hotel_search_tracker.*"
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

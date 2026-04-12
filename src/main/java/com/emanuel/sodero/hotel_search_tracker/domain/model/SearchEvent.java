@@ -14,4 +14,8 @@ public record SearchEvent(
         ages = List.copyOf(ages);
     }
 
+    public Search toSearch() {
+        return new Search(hotelId, checkIn, checkOut, ages);
+    }
+
 }
