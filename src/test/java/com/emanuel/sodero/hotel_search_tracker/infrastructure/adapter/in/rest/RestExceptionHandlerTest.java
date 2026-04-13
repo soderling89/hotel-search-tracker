@@ -1,7 +1,9 @@
 package com.emanuel.sodero.hotel_search_tracker.infrastructure.adapter.in.rest;
 
 import com.emanuel.sodero.hotel_search_tracker.domain.exception.InvalidSearchRequestException;
+import com.emanuel.sodero.hotel_search_tracker.domain.exception.SearchEventPublishException;
 import com.emanuel.sodero.hotel_search_tracker.domain.exception.SearchNotFoundException;
+import com.emanuel.sodero.hotel_search_tracker.infrastructure.adapter.in.rest.dto.ErrorResponseDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -17,30 +19,43 @@ class RestExceptionHandlerTest {
                 new InvalidSearchRequestException("checkIn must be before checkOut")
         );
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().status()).isEqualTo(400);
-        assertThat(response.getBody().error()).isEqualTo("Bad Request");
-        assertThat(response.getBody().details()).containsExactly("checkIn must be before checkOut");
+        assertErrorResponse(response, HttpStatus.BAD_REQUEST, "checkIn must be before checkOut");
     }
 
     @Test
     void shouldHandleSearchNotFoundAsNotFound() {
         final var response = handler.handleNotFound(new SearchNotFoundException("abc"));
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().status()).isEqualTo(404);
-        assertThat(response.getBody().details()).containsExactly("Search not found for id abc");
+        assertErrorResponse(response, HttpStatus.NOT_FOUND, "Search not found for id abc");
+    }
+
+    @Test
+    void shouldHandleSearchEventPublishExceptionAsInternalServerError() {
+        final var response = handler.handleSearchEventPublish(
+                new SearchEventPublishException("Error publishing search event", new RuntimeException("boom"))
+        );
+
+        assertErrorResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, "Error publishing search event");
     }
 
     @Test
     void shouldHandleUnexpectedExceptionAsInternalServerError() {
         final var response = handler.handleUnexpected();
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+        assertErrorResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected internal error");
+    }
+
+    private void assertErrorResponse(
+            final org.springframework.http.ResponseEntity<ErrorResponseDto> response,
+            final HttpStatus expectedStatus,
+            final String expectedDetail
+    ) {
+        assertThat(response.getStatusCode()).isEqualTo(expectedStatus);
         assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().status()).isEqualTo(500);
-        assertThat(response.getBody().details()).containsExactly("Unexpected internal error");
+
+        final ErrorResponseDto body = response.getBody();
+        assertThat(body.status()).isEqualTo(expectedStatus.value());
+        assertThat(body.error()).isEqualTo(expectedStatus.getReasonPhrase());
+        assertThat(body.details()).containsExactly(expectedDetail);
     }
 }

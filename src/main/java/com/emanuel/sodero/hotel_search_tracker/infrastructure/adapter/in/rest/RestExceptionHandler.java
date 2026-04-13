@@ -1,6 +1,7 @@
 package com.emanuel.sodero.hotel_search_tracker.infrastructure.adapter.in.rest;
 
 import com.emanuel.sodero.hotel_search_tracker.domain.exception.InvalidSearchRequestException;
+import com.emanuel.sodero.hotel_search_tracker.domain.exception.SearchEventPublishException;
 import com.emanuel.sodero.hotel_search_tracker.domain.exception.SearchNotFoundException;
 import com.emanuel.sodero.hotel_search_tracker.infrastructure.adapter.in.rest.dto.ErrorResponseDto;
 import jakarta.validation.ConstraintViolationException;
@@ -59,6 +60,11 @@ public class RestExceptionHandler {
     @ExceptionHandler(SearchNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleNotFound(SearchNotFoundException exception) {
         return buildResponse(HttpStatus.NOT_FOUND, List.of(exception.getMessage()));
+    }
+
+    @ExceptionHandler(SearchEventPublishException.class)
+    public ResponseEntity<ErrorResponseDto> handleSearchEventPublish(SearchEventPublishException exception) {
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, List.of(exception.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)

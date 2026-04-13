@@ -3,9 +3,10 @@ package com.emanuel.sodero.hotel_search_tracker.application.service;
 import com.emanuel.sodero.hotel_search_tracker.application.port.in.RegisterSearchUseCase;
 import com.emanuel.sodero.hotel_search_tracker.application.port.out.SearchEventProducer;
 import com.emanuel.sodero.hotel_search_tracker.application.port.out.SearchIdGenerator;
+import com.emanuel.sodero.hotel_search_tracker.domain.exception.InvalidSearchRequestException;
+import com.emanuel.sodero.hotel_search_tracker.domain.exception.SearchEventPublishException;
 import com.emanuel.sodero.hotel_search_tracker.domain.model.Search;
 import com.emanuel.sodero.hotel_search_tracker.domain.model.SearchEvent;
-import com.emanuel.sodero.hotel_search_tracker.domain.exception.InvalidSearchRequestException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,6 +25,7 @@ public class SearchService implements RegisterSearchUseCase {
     public String submit(final Search search) {
         validateDates(search);
         final String searchId = searchIdGenerator.generate();
+
         try {
             searchEventProducer.send(new SearchEvent(
                     searchId,
@@ -33,8 +35,9 @@ public class SearchService implements RegisterSearchUseCase {
                     search.ages()
             ));
         } catch (Exception e) {
-            throw new RuntimeException("Error publishing search event", e);
+            throw new SearchEventPublishException("Error publishing search event", e);
         }
+
         return searchId;
     }
 
@@ -43,6 +46,4 @@ public class SearchService implements RegisterSearchUseCase {
             throw new InvalidSearchRequestException("checkIn must be before checkOut");
         }
     }
-
 }
-
