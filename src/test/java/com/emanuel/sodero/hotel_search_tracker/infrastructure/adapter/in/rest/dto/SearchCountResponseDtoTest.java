@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class SearchCountResponseDtoTest {
 
@@ -20,8 +21,10 @@ class SearchCountResponseDtoTest {
 
         final SearchCountResponseDto dto = new SearchCountResponseDto("search-123", search, 4L);
 
-        assertThat(dto.searchId()).isEqualTo("search-123");
-        assertThat(dto.search()).isEqualTo(search);
-        assertThat(dto.count()).isEqualTo(4L);
+        assertAll("SearchCountResponseDto fields",
+                () -> assertThat(dto.searchId()).isEqualTo("search-123"),
+                () -> assertThat(dto.search()).isEqualTo(search),
+                () -> assertThat(dto.count()).isEqualTo(4L)
+        );
     }
 }

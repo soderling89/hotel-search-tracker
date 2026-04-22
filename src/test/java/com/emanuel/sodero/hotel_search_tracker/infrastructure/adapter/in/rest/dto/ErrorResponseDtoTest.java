@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ErrorResponseDtoTest {
 
@@ -24,10 +25,13 @@ class ErrorResponseDtoTest {
 
         details.add("extra detail");
 
-        assertThat(dto.timestamp()).isEqualTo(timestamp);
-        assertThat(dto.status()).isEqualTo(400);
-        assertThat(dto.error()).isEqualTo("Bad Request");
-        assertThat(dto.details()).containsExactly("field1: must not be blank", "field2: must not be null");
+        assertAll("ErrorResponseDto validation",
+                () -> assertThat(dto.timestamp()).isEqualTo(timestamp),
+                () -> assertThat(dto.status()).isEqualTo(400),
+                () -> assertThat(dto.error()).isEqualTo("Bad Request"),
+                () -> assertThat(dto.details())
+                        .containsExactly("field1: must not be blank", "field2: must not be null")
+        );
     }
 
     @Test

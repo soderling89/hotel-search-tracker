@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,9 +41,11 @@ class SearchStatsServiceTest {
 
         final var result = service.getBySearchId("abc");
 
-        assertThat(result.searchId()).isEqualTo("abc");
-        assertThat(result.count()).isEqualTo(4L);
-        assertThat(result.search()).isEqualTo(search);
+        assertAll("service getBySearchId result",
+                () -> assertThat(result.searchId()).isEqualTo("abc"),
+                () -> assertThat(result.count()).isEqualTo(4L),
+                () -> assertThat(result.search()).isEqualTo(search)
+        );
     }
 
     @Test

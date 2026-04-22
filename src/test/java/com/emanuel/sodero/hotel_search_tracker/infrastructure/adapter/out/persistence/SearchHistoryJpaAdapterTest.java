@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DataJpaTest
 @ActiveProfiles("test")
@@ -30,9 +31,11 @@ class SearchHistoryJpaAdapterTest {
         adapter.store("id-1", search);
         adapter.store("id-2", search);
 
-        assertThat(adapter.countMatches(search)).isEqualTo(2L);
-        assertThat(adapter.findBySearchId("id-1")).contains(search);
-        assertThat(adapter.findBySearchId("missing")).isEmpty();
+        assertAll("adapter persistence and recovery",
+                () -> assertThat(adapter.countMatches(search)).isEqualTo(2L),
+                () -> assertThat(adapter.findBySearchId("id-1")).contains(search),
+                () -> assertThat(adapter.findBySearchId("missing")).isEmpty()
+        );
     }
 
     @Test

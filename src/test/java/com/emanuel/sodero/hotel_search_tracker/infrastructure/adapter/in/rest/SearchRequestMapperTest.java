@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class SearchRequestMapperTest {
 
@@ -38,8 +39,10 @@ class SearchRequestMapperTest {
 
         final var response = mapper.toResponse(result);
 
-        assertThat(response.searchId()).isEqualTo("id-1");
-        assertThat(response.count()).isEqualTo(100L);
-        assertThat(response.search().ages()).containsExactly(3, 29, 30, 1);
+        assertAll("mapper toResponse",
+                () -> assertThat(response.searchId()).isEqualTo("id-1"),
+                () -> assertThat(response.count()).isEqualTo(100L),
+                () -> assertThat(response.search().ages()).containsExactly(3, 29, 30, 1)
+        );
     }
 }
