@@ -16,8 +16,8 @@ Aplicacion Spring Boot 3.5.13 y Java 21 que permite realizar busquedas por hotel
 
 Se implemento arquitectura hexagonal:
 
-- `domain`: modelo y excepciones del dominio
-- `application`: casos de uso y puertos de entrada/salida
+- `domain`: modelo, excepciones del dominio y puertos de salida
+- `application`: casos de uso y puertos de entrada
 - `infrastructure.adapter.in`: REST y consumidor Kafka
 - `infrastructure.adapter.out`: productor Kafka, generador de ID y persistencia
 - `infrastructure.config`: configuracion universal

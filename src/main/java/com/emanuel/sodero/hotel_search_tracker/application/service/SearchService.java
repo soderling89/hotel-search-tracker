@@ -1,8 +1,8 @@
 package com.emanuel.sodero.hotel_search_tracker.application.service;
 
 import com.emanuel.sodero.hotel_search_tracker.application.port.in.RegisterSearchUseCase;
-import com.emanuel.sodero.hotel_search_tracker.application.port.out.SearchEventProducer;
-import com.emanuel.sodero.hotel_search_tracker.application.port.out.SearchIdGenerator;
+import com.emanuel.sodero.hotel_search_tracker.domain.port.out.SearchEventProducer;
+import com.emanuel.sodero.hotel_search_tracker.domain.port.out.SearchIdGenerator;
 import com.emanuel.sodero.hotel_search_tracker.domain.exception.InvalidSearchRequestException;
 import com.emanuel.sodero.hotel_search_tracker.domain.exception.SearchEventPublishException;
 import com.emanuel.sodero.hotel_search_tracker.domain.model.Search;

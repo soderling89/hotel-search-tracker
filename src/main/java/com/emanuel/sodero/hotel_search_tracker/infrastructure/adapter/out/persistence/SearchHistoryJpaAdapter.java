@@ -1,6 +1,6 @@
 package com.emanuel.sodero.hotel_search_tracker.infrastructure.adapter.out.persistence;
 
-import com.emanuel.sodero.hotel_search_tracker.application.port.out.SearchHistoryRepository;
+import com.emanuel.sodero.hotel_search_tracker.domain.port.out.SearchHistoryRepository;
 import com.emanuel.sodero.hotel_search_tracker.domain.model.Search;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

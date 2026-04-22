@@ -1,6 +1,6 @@
 package com.emanuel.sodero.hotel_search_tracker.infrastructure.adapter.out.messaging;
 
-import com.emanuel.sodero.hotel_search_tracker.application.port.out.SearchEventProducer;
+import com.emanuel.sodero.hotel_search_tracker.domain.port.out.SearchEventProducer;
 import com.emanuel.sodero.hotel_search_tracker.domain.model.SearchEvent;
 import com.emanuel.sodero.hotel_search_tracker.infrastructure.config.KafkaTopicsProperties;
 import org.springframework.kafka.core.KafkaTemplate;

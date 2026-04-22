@@ -1,4 +1,4 @@
-package com.emanuel.sodero.hotel_search_tracker.application.port.out;
+package com.emanuel.sodero.hotel_search_tracker.domain.port.out;
 
 import com.emanuel.sodero.hotel_search_tracker.domain.model.Search;
 
