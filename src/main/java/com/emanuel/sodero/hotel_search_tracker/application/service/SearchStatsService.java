@@ -5,9 +5,7 @@ import com.emanuel.sodero.hotel_search_tracker.application.port.out.SearchHistor
 import com.emanuel.sodero.hotel_search_tracker.domain.exception.SearchNotFoundException;
 import com.emanuel.sodero.hotel_search_tracker.domain.model.Search;
 import com.emanuel.sodero.hotel_search_tracker.domain.model.SearchCountView;
-import org.springframework.stereotype.Service;
 
-@Service
 public class SearchStatsService implements GetSearchCountUseCase {
 
     private final SearchHistoryRepository searchHistoryRepository;

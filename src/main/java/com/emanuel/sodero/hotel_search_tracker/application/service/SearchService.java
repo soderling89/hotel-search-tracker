@@ -7,9 +7,7 @@ import com.emanuel.sodero.hotel_search_tracker.domain.exception.InvalidSearchReq
 import com.emanuel.sodero.hotel_search_tracker.domain.exception.SearchEventPublishException;
 import com.emanuel.sodero.hotel_search_tracker.domain.model.Search;
 import com.emanuel.sodero.hotel_search_tracker.domain.model.SearchEvent;
-import org.springframework.stereotype.Service;
 
-@Service
 public class SearchService implements RegisterSearchUseCase {
     private final SearchIdGenerator searchIdGenerator;
     private final SearchEventProducer searchEventProducer;
