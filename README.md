@@ -62,6 +62,16 @@ Response:
 }
 ```
 
+## Manejo de errores
+
+El manejo de errores HTTP está centralizado con `@RestControllerAdvice` en `RestExceptionHandler`.
+
+La API devuelve respuestas consistentes mediante `ErrorResponseDto`, contemplando principalmente:
+
+- `400 Bad Request` para errores de validación o requests inválidos
+- `404 Not Found` cuando el searchId no existe
+- `500 Internal Server Error` para errores inesperados o fallas al publicar eventos
+
 ## Interfaces visuales
 
 - Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) Documentacion de la API
